@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A.H.G. Automated Hook Generator - Powered by Claude Skills</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; color: #333; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+        header { text-align: center; color: white; padding: 40px 0; }
+        h1 { font-size: 3em; margin-bottom: 10px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
+        .subtitle { font-size: 1.2em; opacity: 0.9; }
+        .generator { background: white; border-radius: 20px; padding: 40px; margin: 40px 0; box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
+        .input-group { margin-bottom: 30px; }
+        label { display: block; font-weight: bold; margin-bottom: 10px; color: #555; }
+        textarea, select { width: 100%; padding: 15px; border: 2px solid #e1e5e9; border-radius: 10px; font-size: 16px; transition: border-color 0.3s; }
+        textarea:focus, select:focus { outline: none; border-color: #667eea; }
+        textarea { height: 120px; resize: vertical; }
+        .skill-buttons { display: flex; gap: 15px; flex-wrap: wrap; margin-bottom: 20px; }
+        .skill-btn { padding: 12px 24px; background: #667eea; color: white; border: none; border-radius: 25px; cursor: pointer; font-weight: bold; transition: all 0.3s; }
+        .skill-btn:hover { background: #5a67d8; transform: translateY(-2px); }
+        .skill-btn.active { background: #764ba2; }
+        button.generate { width: 100%; padding: 20px; background: linear-gradient(135deg, #667eea, #764ba2); color: white; border: none; border-radius: 15px; font-size: 1.2em; font-weight: bold; cursor: pointer; transition: all 0.3s; }
+        button.generate:hover { transform: translateY(-3px); box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4); }
+        .results { margin-top: 30px; }
+        .hook { background: #f8f9ff; border-left: 5px solid #667eea; padding: 20px; margin-bottom: 20px; border-radius: 0 10px 10px 0; font-size: 1.1em; line-height: 1.5; }
+        .hook.contrarian { border-left-color: #f0932b; background: #fff3e6; }
+        .hook.vulnerability { border-left-color: #e91e63; background: #fce4ec; }
+        .copy-btn { background: #28a745; color: white; border: none; padding: 8px 16px; border-radius: 20px; cursor: pointer; margin-top: 10px; font-size: 0.9em; }
+        .copy-btn:hover { background: #218838; }
+        footer { text-align: center; color: white; padding: 20px; opacity: 0.8; }
+        @media (max-width: 768px) { h1 { font-size: 2em; } .skill-buttons { flex-direction: column; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🚀 A.H.G. Automated Hook Generator</h1>
+            <p class="subtitle">Powered by Claude Skills: Contrarian Reframes & Vulnerability-to-Victory</p>
+        </header>
+
+        <div class="generator">
+            <div class="input-group">
+                <label for="topic">Enter your topic/idea (e.g., "fitness routines", "productivity hacks"):</label>
+                <textarea id="topic" placeholder="Describe your main topic or content idea..."></textarea>
+            </div>
+
+            <div class="input-group">
+                <label>Choose your Claude Skill:</label>
+                <div class="skill-buttons">
+                    <button class="skill-btn active" data-skill="contrarian">⚡ Contrarian Reframe</button>
+                    <button class="skill-btn" data-skill="vulnerability">💔 Vulnerability-to-Victory</button>
+                    <button class="skill-btn" data-skill="both">🎯 Both Skills</button>
+                </div>
+            </div>
+
+            <button class="generate" onclick="generateHooks()">Generate Killer Hooks Now! 🎣</button>
+
+            <div class="results" id="results"></div>
+        </div>
+    </div>
+
+    <footer>
+        <p>Built with Blackbox AI | Master the art of attention-grabbing content</p>
+    </footer>
+
+    <script>
+        // A.H.G. Core Engine - Claude Skills Implementation
+        const skills = {
+            contrarian: (topic) => {
+                const reframes = [
+                    `Everyone says ${topic} requires discipline. What if it actually thrives on *obsession*?`,
+                    `The ${topic} gurus are wrong. Here's why ${topic} works backwards...`,
+                    `Stop ${topic} like everyone else. Do THIS instead and watch results explode.`,
+                    `Why ${topic} fails 90% of the time (and the counterintuitive fix nobody talks about)`,
+                    `${topic} isn't what you think. The real secret is...`
+                ];
+                return reframes[Math.floor(Math.random() * reframes.length)];
+            },
+            vulnerability: (topic) => {
+                const victories = [
+                    `I failed at ${topic} for 3 years straight... until THIS one mindset shift.`,
+                    `I was terrible at ${topic} and hated myself for it. Then I discovered...`,
+                    `My biggest ${topic} failure taught me more than any success ever could.`,
+                    `I used to suck at ${topic}. Here's the embarrassing truth that changed everything.`,
+                    `Burned out from ${topic}? I was too. Here's how I turned weakness into my superpower.`
+                ];
+                return victories[Math.floor(Math.random() * victories.length)];
+            }
+        };
+
+        // Enhanced generator with combinations
+        function generateHooks() {
+            const topic = document.getElementById('topic').value.trim();
+            const activeSkill = document.querySelector('.skill-btn.active').dataset.skill;
+            const resultsDiv = document.getElementById('results');
+            
+            if (!topic) {
+                resultsDiv.innerHTML = '<p style="color: #f39c12; text-align: center;">Enter a topic to generate hooks! 📝</p>';
+                return;
+            }
+
+            resultsDiv.innerHTML = '';
+
+            if (activeSkill === 'both') {
+                // Generate both types
+                const contrarianHook = skills.contrarian(topic);
+                const vulnHook = skills.vulnerability(topic);
+                
+                resultsDiv.innerHTML = `
+                    <div class="hook contrarian">
+                        <strong>⚡ Contrarian Reframe:</strong><br>${contrarianHook}
+                        <button class="copy-btn" onclick="copyToClipboard('${contrarianHook}')">Copy Hook</button>
+                    </div>
+                    <div class="hook vulnerability">
+                        <strong>💔 Vulnerability-to-Victory:</strong><br>${vulnHook}
+                        <button class="copy-btn" onclick="copyToClipboard('${vulnHook}')">Copy Hook</button>
+                    </div>
+                `;
+            } else {
+                // Single skill
+                const hook = skills[activeSkill](topic);
+                const skillName = activeSkill === 'contrarian' ? 'Contrarian Reframe' : 'Vulnerability-to-Victory';
+                resultsDiv.innerHTML = `
+                    <div class="hook ${activeSkill}">
+                        <strong>${skillName}:</strong><br>${hook}
+                        <button class="copy-btn" onclick="copyToClipboard('${hook}')">Copy Hook</button>
+                    </div>
+                `;
+            }
+        }
+
+        // Skill button toggling
+        document.querySelectorAll('.skill-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.skill-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+            });
+        });
+
+        // Copy to clipboard functionality
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                const btn = event.target;
+                const originalText = btn.textContent;
+                btn.textContent = 'Copied! ✅';
+                btn.style.background = '#28a745';
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                    btn.style.background = '#28a745';
+                }, 2000);
+            });
+        }
+
+        // Enter key support
+        document.getElementById('topic').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                generateHooks();
+            }
+        });
+
+        // Auto-generate example on load
+        window.onload = () => {
+            document.getElementById('topic').value = 'building a SaaS business';
+        };
+    </script>
+</body>
+</html>
